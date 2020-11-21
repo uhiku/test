@@ -4,10 +4,11 @@ import { SongTrimService } from './song-trim.service';
 
 AWS.config.update({ region: 'eu-west-1' });
 
-const songTrimService = new SongTrimService();
-
-export const main = AppLambda(async (context: AppLambdaContext) => {
+export const trimSong = async (context: AppLambdaContext) => {
+  const songTrimService = new SongTrimService();
   const record = context.event.Records[0];
 
   songTrimService.trimRecord(record);
-});
+};
+
+export const main = AppLambda(trimSong);

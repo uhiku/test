@@ -4,9 +4,10 @@ import { FetchSongsService } from './fetch-songs.service';
 
 AWS.config.update({ region: 'eu-west-1' });
 
-export const main = AppLambda(async (context: AppLambdaContext) => {
+export const fetchSongsCallback = async (context: AppLambdaContext) => {
   const fetchSongsService = new FetchSongsService();
 
-  return fetchSongsService.fetchAllSogs();
-});
+  return fetchSongsService.fetchAllSongs();
+};
 
+export const main = AppLambda(fetchSongsCallback);

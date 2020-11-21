@@ -1,11 +1,10 @@
 import { S3HelperService } from '../../core/s3/s3-helper.service';
-import { UrlMethods } from '../../core/s3/s3.models';
 
 export class FetchSongsService {
   private readonly _s3Helper = new S3HelperService();
   constructor() {}
 
-  async fetchAllSogs(): Promise<string[]> {
+  async fetchAllSongs(): Promise<string[]> {
     const { Contents } = await this._s3Helper.getBucketFiles('trimmed/');
 
     const urls = [];
