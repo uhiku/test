@@ -39,3 +39,8 @@ Using returned URL it is possible to upload .mp3 file to the S3 bucket.
 ```
 
 This will return signed urls to download cropped songs to 5 seconds using FFMPEG.
+
+
+You can find a Postman collection with the link below:
+
+>https://www.getpostman.com/collections/d6c47f97992223e8a81e
