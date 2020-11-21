@@ -1,8 +1,8 @@
-import { config } from 'aws-sdk';
-import { Callback, Context } from 'aws-lambda';
-import { AppLambdaContext } from './context';
+import { config } from "aws-sdk";
+import { Callback, Context } from "aws-lambda";
+import { AppLambdaContext } from "./context";
 
-config.update({ region: 'eu-west-1' });
+config.update({ region: process.env.aws_region });
 
 export function AppLambda<TReturn>(
   lambdaBody: (context: AppLambdaContext) => TReturn
@@ -19,7 +19,7 @@ export function AppLambda<TReturn>(
         callback(
           null,
           appCtx.response.failure({
-            error: { message: error.message, name: error.name }
+            error: { message: error.message, name: error.name },
           })
         );
       }

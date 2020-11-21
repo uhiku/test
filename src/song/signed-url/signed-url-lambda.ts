@@ -1,8 +1,8 @@
-import * as AWS from 'aws-sdk';
-import { AppLambda, AppLambdaContext } from '../../core/lambda';
-import { S3HelperService } from '../../core/s3/s3-helper.service';
+import * as AWS from "aws-sdk";
+import { AppLambda, AppLambdaContext } from "../../core/lambda";
+import { S3HelperService } from "../../core/s3/s3-helper.service";
 
-AWS.config.update({ region: 'eu-west-1' });
+AWS.config.update({ region: process.env.aws_region });
 
 export const getSignedUrl = async (context: AppLambdaContext) => {
   const s3Helper = new S3HelperService(

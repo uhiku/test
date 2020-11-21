@@ -1,9 +1,9 @@
-import { S3EventRecord } from 'aws-lambda';
-import { S3HelperService } from '../../../core/s3/s3-helper.service';
-import { SongTrimService } from '../song-trim.service';
-import * as ffmpegTrimModule from '../../../shared/utils/trim-song.util';
+import { S3EventRecord } from "aws-lambda";
+import { S3HelperService } from "../../../core/s3/s3-helper.service";
+import { SongTrimService } from "../song-trim.service";
+import * as ffmpegTrimModule from "../../../shared/utils/trim-song.util";
 
-describe('fetch songs service', () => {
+describe("fetch songs service", () => {
   let songTrimService: SongTrimService;
   let recordMock: S3EventRecord;
   let trimmedFileMock: Buffer;
@@ -13,34 +13,34 @@ describe('fetch songs service', () => {
   let putSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    trimmedFileMock = Buffer.from('sample-buffer-trimmed');
+    trimmedFileMock = Buffer.from("sample-buffer-trimmed");
     fetchSpy = jest
-      .spyOn(S3HelperService.prototype, 'fetch')
+      .spyOn(S3HelperService.prototype, "fetch")
       .mockImplementation(() =>
-        Promise.resolve({ Body: Buffer.from('sample-buffer') } as any)
+        Promise.resolve({ Body: Buffer.from("sample-buffer") } as any)
       );
     deleteSpy = jest
-      .spyOn(S3HelperService.prototype, 'delete')
+      .spyOn(S3HelperService.prototype, "delete")
       .mockImplementation(() => Promise.resolve(undefined));
     putSpy = jest
-      .spyOn(S3HelperService.prototype, 'put')
+      .spyOn(S3HelperService.prototype, "put")
       .mockImplementation((contents) => Promise.resolve(undefined));
 
-    jest.spyOn(ffmpegTrimModule, 'ffmpegTrim').mockReturnValue(trimmedFileMock);
+    jest.spyOn(ffmpegTrimModule, "ffmpegTrim").mockReturnValue(trimmedFileMock);
 
     recordMock = createRecordMock();
 
     songTrimService = new SongTrimService();
   });
 
-  describe('#fetchAllSongs', () => {
-    it('should fetch all songs rom bucket', async () => {
+  describe("#fetchAllSongs", () => {
+    it("should fetch all songs rom bucket", async () => {
       await songTrimService.trimRecord(recordMock);
-      const fileName = 'object-filname'; //split, taken from record
+      const fileName = "object-filname"; //split, taken from record
 
       expect(ffmpegTrimModule.ffmpegTrim).toHaveBeenCalledWith(
         fileName,
-        Buffer.from('sample-buffer'), // Returned by s3Helper.fetch method
+        Buffer.from("sample-buffer"), // Returned by s3Helper.fetch method
         0,
         5
       );
@@ -57,37 +57,37 @@ describe('fetch songs service', () => {
 
 function createRecordMock(): S3EventRecord {
   return {
-    eventVersion: '1',
-    eventSource: 'fake-source',
-    awsRegion: 'eu-west-1',
-    eventTime: '1605967322',
-    eventName: 'name',
+    eventVersion: "1",
+    eventSource: "fake-source",
+    awsRegion: process.env.aws_region,
+    eventTime: "1605967322",
+    eventName: "name",
     userIdentity: {
-      principalId: 'fake-principa;-id',
+      principalId: "fake-principa;-id",
     },
     requestParameters: {
-      sourceIPAddress: 'fake sourceIPAddress',
+      sourceIPAddress: "fake sourceIPAddress",
     },
     responseElements: {
-      'x-amz-request-id': 'fake x-amz-request-id',
-      'x-amz-id-2': 'fake x-amz-id-2',
+      "x-amz-request-id": "fake x-amz-request-id",
+      "x-amz-id-2": "fake x-amz-id-2",
     },
     s3: {
-      s3SchemaVersion: 'fake s3SchemaVersion',
-      configurationId: 'fake  configurationId',
+      s3SchemaVersion: "fake s3SchemaVersion",
+      configurationId: "fake  configurationId",
       bucket: {
-        name: 'fake bucket name',
+        name: "fake bucket name",
         ownerIdentity: {
-          principalId: 'fake principalId',
+          principalId: "fake principalId",
         },
-        arn: 'fake arn',
+        arn: "fake arn",
       },
       object: {
-        key: 'fake/object-filname',
+        key: "fake/object-filname",
         size: 54,
-        eTag: 'fake etag',
-        versionId: 'fake versionId',
-        sequencer: 'fake sequencer',
+        eTag: "fake etag",
+        versionId: "fake versionId",
+        sequencer: "fake sequencer",
       },
     },
   };

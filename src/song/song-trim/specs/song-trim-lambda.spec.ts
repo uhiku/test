@@ -1,20 +1,20 @@
-import { S3EventRecord } from 'aws-lambda';
-import { AppLambdaContext } from '../../../core/lambda';
-import { trimSong } from '../song-trim-lambda';
-import { SongTrimService } from '../song-trim.service';
+import { S3EventRecord } from "aws-lambda";
+import { AppLambdaContext } from "../../../core/lambda";
+import { trimSong } from "../song-trim-lambda";
+import { SongTrimService } from "../song-trim.service";
 
-describe('trimSong lambda', () => {
+describe("trimSong lambda", () => {
   let trimRecordSpy: jest.SpyInstance;
   let recordMock: S3EventRecord;
 
   beforeEach(() => {
     trimRecordSpy = jest
-      .spyOn(SongTrimService.prototype, 'trimRecord')
+      .spyOn(SongTrimService.prototype, "trimRecord")
       .mockImplementation(() => Promise.resolve(undefined));
     recordMock = createRecordMock();
   });
 
-  it('getSignedUrl shuld return signed url', async () => {
+  it("getSignedUrl shuld return signed url", async () => {
     await trimSong({
       event: { Records: [recordMock] },
     } as AppLambdaContext);
@@ -25,37 +25,37 @@ describe('trimSong lambda', () => {
 
 function createRecordMock(): S3EventRecord {
   return {
-    eventVersion: '1',
-    eventSource: 'fake-source',
-    awsRegion: 'eu-west-1',
-    eventTime: '1605967322',
-    eventName: 'name',
+    eventVersion: "1",
+    eventSource: "fake-source",
+    awsRegion: process.env.aws_region,
+    eventTime: "1605967322",
+    eventName: "name",
     userIdentity: {
-      principalId: 'fake-principa;-id',
+      principalId: "fake-principa;-id",
     },
     requestParameters: {
-      sourceIPAddress: 'fake sourceIPAddress',
+      sourceIPAddress: "fake sourceIPAddress",
     },
     responseElements: {
-      'x-amz-request-id': 'fake x-amz-request-id',
-      'x-amz-id-2': 'fake x-amz-id-2',
+      "x-amz-request-id": "fake x-amz-request-id",
+      "x-amz-id-2": "fake x-amz-id-2",
     },
     s3: {
-      s3SchemaVersion: 'fake s3SchemaVersion',
-      configurationId: 'fake  configurationId',
+      s3SchemaVersion: "fake s3SchemaVersion",
+      configurationId: "fake  configurationId",
       bucket: {
-        name: 'fake bucket name',
+        name: "fake bucket name",
         ownerIdentity: {
-          principalId: 'fake principalId',
+          principalId: "fake principalId",
         },
-        arn: 'fake arn',
+        arn: "fake arn",
       },
       object: {
-        key: 'fake key',
+        key: "fake key",
         size: 54,
-        eTag: 'fake etag',
-        versionId: 'fake versionId',
-        sequencer: 'fake sequencer',
+        eTag: "fake etag",
+        versionId: "fake versionId",
+        sequencer: "fake sequencer",
       },
     },
   };

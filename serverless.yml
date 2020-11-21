@@ -6,6 +6,10 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
 custom:
+  dotenv:
+    path: .env
+    basePath: .env
+    logging: false
   webpack:
     includeModules:
       forceInclude:
@@ -18,8 +22,8 @@ custom:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: dev78200
-  region: eu-west-1
+  stage: ${env:stage}
+  region: ${env:aws_region}
   environment:
     FFMPEG_PATH: /opt/ffmpeg/ffmpeg
     FFPROBE_PATH: /opt/ffmpeg/ffprobe
